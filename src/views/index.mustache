@@ -1,22 +1,25 @@
-<!DOCTYPE html>
-<html lang="pt-BR">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>FriendlyWaddle Fitness</title>
-    <link rel="stylesheet" href="/css/GlobalStyles.css" />
-    <link rel="stylesheet" href="/css/index.css" />
-  </head>
-  <body>
-    <header>{{> header}}</header>
+{{> layout}}
 
-    <div class="main">
-      <h1>Bem-vindo ao FriendlyWaddle Fitness!</h1>
-      <p>Nome: {{ name }}</p>
-    </div>
+<head>
+  <link rel="stylesheet" href="/css/index.css" />
+</head>
 
-    <footer>{{> footer}}</footer>
-
-    <script src="/scripts.js"></script>
-  </body>
-</html>
+<div class="main">
+  <h1>Bem-vindo ao FriendlyWaddle Fitness!</h1>
+  <p>
+    Nosso foco é o seu condicionamento físico, saúde e bem-estar. Descubra dicas
+    valiosas sobre exercícios, nutrição e um estilo de vida saudável. Nossa
+    missão é auxiliá-lo a alcançar seus objetivos com segurança e eficiência.
+    Junte-se a nós e descubra maneiras de melhorar seu desempenho físico e
+    mental.
+    <a href="/saiba-mais" class="saiba-mais">Saiba mais.</a>
+  </p>
+  <p>Nome: {{ name }}</p>
+  <form class="form-login">
+    <label for="email">Email:</label>
+    <input type="email" id="email" name="email" required />
+    <label for="password">Senha:</label>
+    <input type="password" id="password" name="password" required />
+    <button type="submit">Entrar</button>
+  </form>
+</div>

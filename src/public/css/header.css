@@ -1,18 +1,41 @@
 .header {
   background-color: black;
   color: white;
-  padding: 5px;
 }
 
 .header-div {
   display: flex;
   align-items: center;
-  justify-content: space-between;
+  justify-content: left;
+  width: 100%;
+}
+
+.contato {
+  display: flex;
+  align-items: center;
+  text-decoration: none;
+  color: white;
 }
 
 .logo {
   display: flex;
   align-items: center;
+  text-decoration: none;
+  color: white;
+  margin-left: 15px;
+  margin-right: 25px;
+}
+
+.items-div {
+  width: 100%;
+}
+
+.items {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  text-decoration: none;
+  color: white;
 }
 
 .logo img {

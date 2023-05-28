@@ -1,14 +1,14 @@
-const express = require('express');
-const mustacheExpress = require('mustache-express');
-const indexRouter = require('./routes/index');
+const express = require("express");
+const mustacheExpress = require("mustache-express");
+const indexRouter = require("./routes/index");
 
 const app = express();
 
-app.engine('mustache', mustacheExpress());
-app.set('view engine', 'mustache');
-app.set('views', __dirname + '/views');
-
-app.use('/', indexRouter);
+app.engine("mustache", mustacheExpress());
+app.set("view engine", "mustache");
+app.set("views", __dirname + "/views");
+app.use(express.static("public"));
+app.use("/", indexRouter);
 
 const PORT = 3000;
 app.listen(PORT, () => {

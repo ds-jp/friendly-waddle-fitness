@@ -2,10 +2,12 @@
 
 Programação Web 2
 
-Dados necessários no .env:
+Dados necessários no .env:  
 EMAIL_USER=seu-email@gmail.com  
 EMAIL_PASSWORD=sua-senha  
 RECIPIENT_EMAIL=seu-email-de-destino@gmail.com  
+Para o envio de e-mail é necessário desativar o acesso ao app menos seguro no gmail.  
+https://myaccount.google.com/lesssecureapps  
 
 Especificação do Sistema
 

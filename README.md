@@ -2,6 +2,11 @@
 
 Programação Web 2
 
+Dados necessários no .env:
+EMAIL_USER=seu-email@gmail.com  
+EMAIL_PASSWORD=sua-senha  
+RECIPIENT_EMAIL=seu-email-de-destino@gmail.com  
+
 Especificação do Sistema
 
 O projeto web contemplado pela disciplina visa permitir que os alunos apliquem os conceitos e

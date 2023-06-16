@@ -1,3 +1,4 @@
+<!-- contato.mustache -->
 {{> layout}}
 
 <head>
@@ -6,19 +7,63 @@
 
 <div class="main">
   <h1>Contate o FriendlyWaddle Fitness!</h1>
-  <p>
-    ...
-  </p>
-  // TODO Envio de e-mails
-  <form action="/enviar-email">
+  <p>...</p>
+  <form id="form-email">
     <label for="nome">Nome:</label>
-    <input type="text" id="nome" name="nome" required>
+    <input type="text" id="nome" name="nome" required />
     <label for="email">E-mail:</label>
-    <input type="email" id="email" name="email" required>
+    <input type="email" id="email" name="email" required />
     <label for="assunto">Assunto:</label>
-    <input type="text" id="assunto" name="assunto" required>
+    <input type="text" id="assunto" name="assunto" required />
     <label for="mensagem">Mensagem:</label>
     <textarea id="mensagem" name="mensagem" required></textarea>
     <button type="submit">Enviar</button>
   </form>
 </div>
+
+<script>
+  document
+    .getElementById("form-email")
+    .addEventListener("submit", function (event) {
+      event.preventDefault();
+
+      const nomeInput = document.querySelector('input[name="nome"]');
+      const emailInput = document.querySelector('input[name="email"]');
+      const assuntoInput = document.querySelector('input[name="assunto"]');
+      const mensagemInput = document.querySelector('textarea[name="mensagem"]');
+      const enviarButton = document.querySelector('button[type="submit"]');
+
+      const nome = nomeInput.value;
+      const email = emailInput.value;
+      const assunto = assuntoInput.value;
+      const mensagem = mensagemInput.value;
+
+      enviarButton.disabled = true;
+      enviarButton.textContent = "Enviando...";
+
+      fetch("/enviar-email", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({ nome, email, assunto, mensagem }),
+      })
+        .then(function (response) {
+          if (response.ok) {
+            alert("E-mail enviado com sucesso.");
+            nomeInput.value = "";
+            emailInput.value = "";
+            assuntoInput.value = "";
+            mensagemInput.value = "";
+            enviarButton.textContent = "Enviado!";
+          } else {
+            throw new Error("Ocorreu um erro ao enviar o e-mail.");
+          }
+        })
+        .catch(function (error) {
+          enviarButton.disabled = false;
+          enviarButton.textContent = "Enviar";
+          alert(error.message);
+        });
+    });
+</script>

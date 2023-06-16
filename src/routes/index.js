@@ -1,5 +1,6 @@
 const express = require("express");
 const router = express.Router();
+const enviarEmail = require("../public/js/enviar-email");
 require("dotenv").config();
 
 router.get("/", (req, res) => {
@@ -38,36 +39,17 @@ router.get("/contato", (req, res) => {
   res.render("contato", data);
 });
 
-router.get("/enviar-email", (req, res) => {
-  const nome = req.query.nome;
-  const email = req.query.email;
-  const assunto = req.query.assunto;
-  const mensagem = req.query.mensagem;
-  const nodemailer = require("nodemailer");
+router.post("/enviar-email", (req, res) => {
+  const { nome, email, assunto, mensagem } = req.body;
 
-  const transporter = nodemailer.createTransport({
-    service: "Gmail",
-    auth: {
-      user: process.env.EMAIL_USER,
-      pass: process.env.EMAIL_PASSWORD,
-    },
-  });
-
-  const mailOptions = {
-    from: email,
-    to: process.env.RECIPIENT_EMAIL,
-    subject: assunto,
-    text: `Nome: ${nome}\nE-mail: ${email}\n\nMensagem: ${mensagem}`,
-  };
-
-  transporter.sendMail(mailOptions, (error, info) => {
-    if (error) {
+  enviarEmail(nome, email, assunto, mensagem)
+    .then(() => {
+      res.sendStatus(200);
+    })
+    .catch((error) => {
       console.error("Erro ao enviar e-mail:", error);
-      res.status(500).send("Ocorreu um erro ao enviar o e-mail.");
-    } else {
-      console.log("E-mail enviado com sucesso:", info.response);
-      res.send("Mensagem enviada com sucesso!");
-    }
-  });
+      res.sendStatus(500);
+    });
 });
+
 module.exports = router;

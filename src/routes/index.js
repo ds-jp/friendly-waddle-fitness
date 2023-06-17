@@ -6,7 +6,6 @@ require("dotenv").config();
 router.get("/", (req, res) => {
   const data = {
     title: "FriendlyWaddle Fitness",
-    name: "Teste",
   };
   res.render("index", data);
 });

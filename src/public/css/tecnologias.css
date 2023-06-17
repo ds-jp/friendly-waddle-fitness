@@ -1,0 +1,21 @@
+.container {
+  padding: 20px;
+}
+
+.main {
+  border-radius: 8px;
+  border: 1px solid rgba(168, 25, 25, 0.5);
+  background-color: gray;
+  box-shadow: 0 4px 8px rgba(168, 25, 25, 0.5);
+  padding: 40px;
+}
+
+.main h1 {
+  font-size: 24px;
+  margin-bottom: 20px;
+}
+
+.main h2 {
+  font-size: 18px;
+  margin-bottom: 10px;
+}

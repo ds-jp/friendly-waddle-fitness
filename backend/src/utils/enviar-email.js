@@ -4,6 +4,7 @@ require("dotenv").config();
 function enviarEmail(nome, email, assunto, mensagem) {
   const transporter = nodemailer.createTransport({
     service: "Gmail",
+    port: 465, //SMTPS
     auth: {
       user: process.env.EMAIL_USER,
       pass: process.env.EMAIL_PASSWORD,

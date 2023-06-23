@@ -1,7 +1,5 @@
 const express = require("express");
 const router = express.Router();
-const enviarEmail = require("../public/js/enviar-email");
-require("dotenv").config();
 
 router.get("/", (req, res) => {
   const data = {
@@ -36,19 +34,6 @@ router.get("/contato", (req, res) => {
     title: "Contato - FriendlyWaddle Fitness",
   };
   res.render("contato", data);
-});
-
-router.post("/enviar-email", (req, res) => {
-  const { nome, email, assunto, mensagem } = req.body;
-
-  enviarEmail(nome, email, assunto, mensagem)
-    .then(() => {
-      res.sendStatus(200);
-    })
-    .catch((error) => {
-      console.error("Erro ao enviar e-mail:", error);
-      res.sendStatus(500);
-    });
 });
 
 module.exports = router;

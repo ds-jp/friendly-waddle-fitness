@@ -1,6 +1,7 @@
 const express = require("express");
-const mustacheExpress = require("mustache-express");
-const indexRouter = require("./routes/index");
+const router = require("./routes/routes");
+const cors = require("cors");
+
 const Usuario = require("./models/Usuario");
 const Categoria = require("./models/Categoria");
 const Exercicio = require("./models/Exercicio");
@@ -9,12 +10,9 @@ const database = require("./database/database");
 
 const app = express();
 
+app.use(cors());
 app.use(express.json());
-app.engine("mustache", mustacheExpress());
-app.set("view engine", "mustache");
-app.set("views", __dirname + "/views");
-app.use(express.static("./src/public"));
-app.use("/", indexRouter);
+app.use("/api", router);
 
 (async () => {
   try {
@@ -24,8 +22,8 @@ app.use("/", indexRouter);
     console.error("Erro ao criar as tabelas:", error);
   }
 
-  const PORT = 3000;
+  const PORT = 4000;
   app.listen(PORT, () => {
-    console.log(`Servidor rodando em http://localhost:${PORT}`);
+    console.log(`Servidor backend rodando em http://localhost:${PORT}`);
   });
 })();

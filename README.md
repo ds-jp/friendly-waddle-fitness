@@ -6,8 +6,10 @@ Dados necessários no .env:
 EMAIL_USER=seu-email@gmail.com  
 EMAIL_PASSWORD=sua-senha  
 RECIPIENT_EMAIL=seu-email-de-destino@gmail.com  
+DB_DIALECT=dialeto-do-banco-de-dados  
+DB_STORAGE=caminho-de-armazenamento(./xxx/xxx/xxx.db)  
 Para o envio de e-mail é necessário desativar o acesso ao app menos seguro no gmail.  
-https://myaccount.google.com/lesssecureapps  
+https://myaccount.google.com/lesssecureapps
 
 Especificação do Sistema
 

@@ -2,7 +2,7 @@
 
 Programação Web 2
 
-Dados necessários no .env:  
+Dados necessários no .env (colocar dentro da pasta backend\*\*):  
 EMAIL_USER=seu-email@gmail.com  
 EMAIL_PASSWORD=sua-senha  
 RECIPIENT_EMAIL=seu-email-de-destino@gmail.com  

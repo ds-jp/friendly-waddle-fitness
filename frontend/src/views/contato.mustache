@@ -49,7 +49,6 @@
       })
         .then(function (response) {
           if (response.ok) {
-            console.log(JSON.stringify({ nome, email, assunto, mensagem }));
             alert("E-mail enviado com sucesso.");
             nomeInput.value = "";
             emailInput.value = "";
@@ -57,12 +56,10 @@
             mensagemInput.value = "";
             enviarButton.textContent = "Enviado!";
           } else {
-            console.log(JSON.stringify({ nome, email, assunto, mensagem }));
             throw new Error("Ocorreu um erro ao enviar o e-mail.");
           }
         })
         .catch(function (error) {
-          console.log(JSON.stringify({ nome, email, assunto, mensagem }));
           enviarButton.disabled = false;
           enviarButton.textContent = "Enviar";
           alert(error.message);

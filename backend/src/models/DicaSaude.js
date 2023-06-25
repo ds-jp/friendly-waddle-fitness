@@ -12,6 +12,7 @@ const DicaSaude = sequelize.define(
   },
   {
     freezeTableName: true,
+    underscored: true,
   }
 );
 

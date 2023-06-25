@@ -16,6 +16,7 @@ const Exercicio = sequelize.define(
   },
   {
     freezeTableName: true,
+    underscored: true,
   }
 );
 

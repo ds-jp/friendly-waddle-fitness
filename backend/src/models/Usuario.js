@@ -8,9 +8,11 @@ const Usuario = database.define(
     nome: { type: Sequelize.STRING(50), allowNull: false },
     email: { type: Sequelize.STRING(50), allowNull: false, unique: true },
     senha: { type: Sequelize.STRING(255), allowNull: false },
+    is_admin: { type: Sequelize.BOOLEAN, defaultValue: false },
   },
   {
     freezeTableName: true,
+    underscored: true,
   }
 );
 

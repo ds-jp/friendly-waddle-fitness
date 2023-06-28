@@ -7,6 +7,21 @@ function verificarToken(req, res, next) {
   const token = req.headers.authorization;
 
   if (!token) {
+    if (
+      req.method === "GET" &&
+      (req.path === "/categorias/" || /^\/categorias\/\d+$/.test(req.path))
+      /*^ indica o início da string.
+      \/categorias corresponde à sequência literal "/categorias".
+      (\/\d+)? é um grupo opcional que corresponde a uma barra seguida de um ou mais dígitos. Isso permite capturar a parte do URL após "/categorias/".
+      \/ corresponde a uma barra.
+      \d+ corresponde a um ou mais dígitos.
+      + indica que o elemento anterior deve ocorrer uma ou mais vezes.
+      ? torna o grupo opcional, ou seja, pode ou não estar presente na string.
+      $ indica o final da string.*/
+    ) {
+      return next();
+    }
+
     return res.status(401).json({ error: "Token não fornecido" });
   }
 

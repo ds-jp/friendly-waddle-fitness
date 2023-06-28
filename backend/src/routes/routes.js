@@ -4,10 +4,33 @@ const enviarEmail = require("../utils/enviar-email");
 const emailValidator = require("../validators/email-validator");
 const logger = require("../utils/logger");
 const UsuarioController = require("../controllers/Usuario-controller");
+const CategoriaController = require("../controllers/Categoria-controller");
 const {
   verificarToken,
   verificarAdmin,
 } = require("../middlewares/auth-middleware");
+
+router.post(
+  "/categorias/criar",
+  verificarToken,
+  CategoriaController.criarCategoria
+);
+router.get("/categorias", verificarToken, CategoriaController.listarCategorias);
+router.get(
+  "/categorias/:id",
+  verificarToken,
+  CategoriaController.listarDetalhesCategoria
+);
+router.put(
+  "/categorias/:id",
+  verificarToken,
+  CategoriaController.atualizarCategoria
+);
+router.delete(
+  "/categorias/:id",
+  verificarToken,
+  CategoriaController.excluirCategoria
+);
 
 router.post("/usuarios/criar", UsuarioController.criarUsuario);
 router.post(

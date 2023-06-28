@@ -295,8 +295,13 @@ class UsuarioController {
 
       const senhaValida = await bcrypt.compare(senha, usuario.senha);
 
+      const userId = usuario.id;
+
       if (!senhaValida) {
-        logger.warn("Tentativa de login com senha inválida:", { email });
+        logger.warn("Tentativa de login com senha inválida:", {
+          userId,
+          email,
+        });
         return res.status(401).json({ error: "Credenciais inválidas" });
       }
 

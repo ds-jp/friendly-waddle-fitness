@@ -20,6 +20,11 @@ const logger = createLogger({
       level: "info",
       format: format.combine(format.timestamp(), format.json()),
     }),
+    new transports.File({
+      filename: "logs/warn.log",
+      level: "warn",
+      format: format.combine(format.timestamp(), format.json()),
+    }),
   ],
 });
 

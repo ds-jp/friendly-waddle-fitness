@@ -4,8 +4,37 @@ const enviarEmail = require("../utils/enviar-email");
 const emailValidator = require("../validators/email-validator");
 const logger = require("../utils/logger");
 const UsuarioController = require("../controllers/Usuario-controller");
+const {
+  verificarToken,
+  verificarAdmin,
+} = require("../middlewares/auth-middleware");
 
 router.post("/usuarios/criar", UsuarioController.criarUsuario);
+router.post(
+  "/usuarios/admin",
+  verificarToken,
+  verificarAdmin,
+  UsuarioController.criarUsuarioAdmin
+);
+router.get(
+  "/usuarios",
+  verificarToken,
+  verificarAdmin,
+  UsuarioController.listarUsuarios
+);
+router.get(
+  "/usuarios/:id",
+  verificarToken,
+  UsuarioController.listarDetalhesUsuario
+);
+router.put("/usuarios/:id", verificarToken, UsuarioController.atualizarUsuario);
+router.delete(
+  "/usuarios/:id",
+  verificarToken,
+  UsuarioController.excluirUsuario
+);
+router.post("/usuarios/login", UsuarioController.login);
+router.post("/usuarios/logout", verificarToken, UsuarioController.logout);
 
 router.post("/enviar-email", (req, res) => {
   const { error, value } = emailValidator.validate(req.body, {

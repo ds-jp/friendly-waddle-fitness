@@ -5,10 +5,33 @@ const emailValidator = require("../validators/email-validator");
 const logger = require("../utils/logger");
 const UsuarioController = require("../controllers/Usuario-controller");
 const CategoriaController = require("../controllers/Categoria-controller");
+const ExercicioController = require("../controllers/Exercicio-controller");
 const {
   verificarToken,
   verificarAdmin,
 } = require("../middlewares/auth-middleware");
+
+router.post(
+  "/exercicios/criar",
+  verificarToken,
+  ExercicioController.criarExercicio
+);
+router.get("/exercicios", verificarToken, ExercicioController.listarExercicios);
+router.get(
+  "/exercicios/:id",
+  verificarToken,
+  ExercicioController.listarDetalhesExercicio
+);
+router.put(
+  "/exercicios/:id",
+  verificarToken,
+  ExercicioController.atualizarExercicio
+);
+router.delete(
+  "/exercicios/:id",
+  verificarToken,
+  ExercicioController.excluirExercicio
+);
 
 router.post(
   "/categorias/criar",

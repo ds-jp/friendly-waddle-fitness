@@ -9,7 +9,10 @@ function verificarToken(req, res, next) {
   if (!token) {
     if (
       req.method === "GET" &&
-      (req.path === "/categorias/" || /^\/categorias\/\d+$/.test(req.path))
+      (req.path === "/categorias/" ||
+        /^\/categorias\/\d+$/.test(req.path) ||
+        req.path === "/exercicios/" ||
+        /^\/exercicios\/\d+$/.test(req.path))
       /*^ indica o início da string.
       \/categorias corresponde à sequência literal "/categorias".
       (\/\d+)? é um grupo opcional que corresponde a uma barra seguida de um ou mais dígitos. Isso permite capturar a parte do URL após "/categorias/".

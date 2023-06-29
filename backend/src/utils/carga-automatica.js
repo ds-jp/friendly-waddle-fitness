@@ -2,12 +2,58 @@ const Usuario = require("../models/Usuario");
 const Categoria = require("../models/Categoria");
 const Exercicio = require("../models/Exercicio");
 const logger = require("./logger");
+const bcrypt = require("bcrypt");
 
 async function realizarCargaAutomatica(req, res) {
   try {
     if (req.usuario) {
       const usuario = await Usuario.findOne({
         where: { id: req.usuario.id },
+      });
+
+      await Usuario.findOrCreate({
+        where: { email: "usuario1@example.com" },
+        defaults: {
+          nome: "Usuário Admin 1",
+          senha: await bcrypt.hash("senha111", 10),
+          is_admin: true,
+        },
+      });
+
+      await Usuario.findOrCreate({
+        where: { email: "usuario2@example.com" },
+        defaults: {
+          nome: "Usuário 2",
+          senha: await bcrypt.hash("senha222", 10),
+          is_admin: false,
+        },
+      });
+
+      await Usuario.findOrCreate({
+        where: { email: "usuario3@example.com" },
+        defaults: {
+          nome: "Usuário 3",
+          senha: await bcrypt.hash("senha333", 10),
+          is_admin: false,
+        },
+      });
+
+      await Usuario.findOrCreate({
+        where: { email: "usuario4@example.com" },
+        defaults: {
+          nome: "Usuário 4",
+          senha: await bcrypt.hash("senha444", 10),
+          is_admin: false,
+        },
+      });
+
+      await Usuario.findOrCreate({
+        where: { email: "usuario5@example.com" },
+        defaults: {
+          nome: "Usuário 5",
+          senha: await bcrypt.hash("senha555", 10),
+          is_admin: false,
+        },
       });
 
       const categorias = await Categoria.bulkCreate(
@@ -68,6 +114,51 @@ async function realizarCargaAutomatica(req, res) {
         message: "Carga automática concluída com sucesso.",
       });
     } else {
+      await Usuario.findOrCreate({
+        where: { email: "usuario1@example.com" },
+        defaults: {
+          nome: "Usuário Admin 1",
+          senha: await bcrypt.hash("senha111", 10),
+          is_admin: true,
+        },
+      });
+
+      await Usuario.findOrCreate({
+        where: { email: "usuario2@example.com" },
+        defaults: {
+          nome: "Usuário 2",
+          senha: await bcrypt.hash("senha222", 10),
+          is_admin: false,
+        },
+      });
+
+      await Usuario.findOrCreate({
+        where: { email: "usuario3@example.com" },
+        defaults: {
+          nome: "Usuário 3",
+          senha: await bcrypt.hash("senha333", 10),
+          is_admin: false,
+        },
+      });
+
+      await Usuario.findOrCreate({
+        where: { email: "usuario4@example.com" },
+        defaults: {
+          nome: "Usuário 4",
+          senha: await bcrypt.hash("senha444", 10),
+          is_admin: false,
+        },
+      });
+
+      await Usuario.findOrCreate({
+        where: { email: "usuario5@example.com" },
+        defaults: {
+          nome: "Usuário 5",
+          senha: await bcrypt.hash("senha555", 10),
+          is_admin: false,
+        },
+      });
+
       const categorias = await Categoria.bulkCreate(
         [
           { nome: "Categoria 1", usuario_id: null },

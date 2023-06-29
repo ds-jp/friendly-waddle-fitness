@@ -79,7 +79,10 @@ document.addEventListener("DOMContentLoaded", () => {
       })
       .then(function (data) {
         if (data && data.token) {
-          document.cookie = `token=${data.token}`;
+          const expirationDate = new Date(Date.now() + 1 * 60 * 60 * 1000);
+          document.cookie = `token=${
+            data.token
+          }; expires=${expirationDate.toUTCString()}`;
         }
       })
       .catch(function (error) {

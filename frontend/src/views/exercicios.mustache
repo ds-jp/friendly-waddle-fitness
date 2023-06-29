@@ -1,0 +1,43 @@
+{{> layout}}
+
+<head>
+  <link rel="stylesheet" href="/css/exercicios.css" />
+</head>
+
+<div class="container">
+  <div class="main">
+    <h1>Exercícios:</h1>
+    <button id="btnVisualizar">Gráfico PDF</button>
+    <table id="exerciciosTable">
+      <thead>
+        <tr>
+          <th data-column="1" data-order="asc" class="sortable">ID</th>
+          <th data-column="2" data-order="asc" class="sortable">Nome</th>
+          <th data-column="3" data-order="asc" class="sortable">Descrição</th>
+          <th data-column="4" data-order="asc" class="sortable">Dificuldade</th>
+          <th data-column="5" data-order="asc" class="sortable">Categoria</th>
+          <th>Ações</th>
+        </tr>
+      </thead>
+      <tbody></tbody>
+    </table>
+    <button id="btnInserirExercicio">Inserir Exercício</button>
+  </div>
+</div>
+
+<script id="exercicio-template" type="text/template">
+  <tr>
+    <td>{{id}}</td>
+    <td>{{nome}}</td>
+    <td>{{descricao}}</td>
+    <td>{{dificuldade}}</td>
+    <td>{{categoria ? categoria.nome : "-"}}</td>
+    <td>
+      <a href="/exercicios/alterar?id={{id}}" class="acao-link">Editar</a>
+      <a href="#" class="acao-link excluir-exercicio" data-id="{{id}}">Excluir</a>
+    </td>
+  </tr>
+</script>
+
+<script src="/js/exercicios.js"></script>
+<script src="/js/pdf-grafico.js"></script>

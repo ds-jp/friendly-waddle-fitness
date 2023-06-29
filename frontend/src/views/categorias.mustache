@@ -1,0 +1,35 @@
+{{> layout}}
+
+<head>
+  <link rel="stylesheet" href="/css/categorias.css" />
+</head>
+
+<div class="container">
+  <div class="main">
+    <h1>Categorias:</h1>
+    <table id="categoriasTable">
+      <thead>
+        <tr>
+          <th data-column="1" data-order="asc" class="sortable">ID</th>
+          <th data-column="2" data-order="asc" class="sortable">Nome</th>
+          <th>Ações</th>
+        </tr>
+      </thead>
+      <tbody></tbody>
+    </table>
+    <button id="btnInserirCategoria">Inserir Categoria</button>
+  </div>
+</div>
+
+<script id="categoria-template" type="text/template">
+  <tr>
+    <td>{{id}}</td>
+    <td>{{nome}}</td>
+    <td>
+      <a href="categorias/alterar?id={{id}}" class="acao-link">Alterar</a>
+      <a href="#" class="acao-link excluir-categoria" data-id="{{id}}">Excluir</a>
+    </td>
+  </tr>
+</script>
+
+<script src="/js/categorias.js"></script>

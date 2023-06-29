@@ -10,6 +10,16 @@ const {
   verificarToken,
   verificarAdmin,
 } = require("../middlewares/auth-middleware");
+const gerarRelatorio = require("../utils/relatorio");
+const realizarCargaAutomatica = require("../utils/carga-automatica");
+
+router.get("/relatorio", verificarToken, (req, res) => {
+  gerarRelatorio(req, res);
+});
+
+router.post("/carga-automatica", verificarToken, async (req, res) => {
+  realizarCargaAutomatica(req, res);
+});
 
 router.post(
   "/exercicios/criar",

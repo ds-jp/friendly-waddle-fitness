@@ -6,7 +6,6 @@ const logger = require("./utils/logger");
 const Usuario = require("./models/Usuario");
 const Categoria = require("./models/Categoria");
 const Exercicio = require("./models/Exercicio");
-const DicaSaude = require("./models/DicaSaude");
 const database = require("./database/database");
 
 const app = express();

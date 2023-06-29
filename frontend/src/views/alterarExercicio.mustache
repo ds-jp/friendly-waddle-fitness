@@ -1,0 +1,225 @@
+{{> layout}}
+
+<head>
+  <link rel="stylesheet" href="/css/exercicios.css" />
+</head>
+
+<div class="container">
+  <div class="main">
+    <h1>Alterar Exercício</h1>
+    <form id="exercicioForm">
+      <div class="form-group">
+        <label for="nomeExercicio">Nome:</label>
+        <input type="text" id="nomeExercicio" name="nomeExercicio" required />
+      </div>
+      <div class="form-group">
+        <label for="descricaoExercicio">Descrição:</label>
+        <textarea
+          id="descricaoExercicio"
+          name="descricaoExercicio"
+          required
+        ></textarea>
+      </div>
+      <div class="form-group">
+        <label for="dificuldadeExercicio">Dificuldade:</label>
+        <select id="dificuldadeExercicio" name="dificuldadeExercicio" required>
+          <option value="Fácil">Fácil</option>
+          <option value="Moderado">Moderado</option>
+          <option value="Difícil">Difícil</option>
+        </select>
+      </div>
+      <div class="form-group">
+        <label for="categoriaExercicio">Categoria:</label>
+        <select
+          id="categoriaExercicio"
+          name="categoriaExercicio"
+          required
+        ></select>
+      </div>
+      <button type="submit">Alterar</button>
+    </form>
+  </div>
+</div>
+
+<script>
+  const exercicioForm = document.querySelector("#exercicioForm");
+  const exercicioId = new URLSearchParams(window.location.search).get("id");
+
+  exercicioForm.addEventListener("submit", (event) => {
+    event.preventDefault();
+
+    const nomeExercicioInput = document.querySelector("#nomeExercicio");
+    const descricaoExercicioInput = document.querySelector(
+      "#descricaoExercicio"
+    );
+    const dificuldadeExercicioInput = document.querySelector(
+      "#dificuldadeExercicio"
+    );
+    const categoriaExercicioInput = document.querySelector(
+      "#categoriaExercicio"
+    );
+
+    const nomeExercicio = nomeExercicioInput.value.trim();
+    const descricaoExercicio = descricaoExercicioInput.value.trim();
+    const dificuldadeExercicio = dificuldadeExercicioInput.value.trim();
+    const categoriaExercicio = categoriaExercicioInput.value.trim();
+    console.log(categoriaExercicioInput);
+
+    const formData = {
+      nome: nomeExercicio,
+      descricao: descricaoExercicio,
+      dificuldade: dificuldadeExercicio,
+      categoria_id: categoriaExercicio,
+    };
+
+    const token = document.cookie
+      .split(";")
+      .find((cookie) => cookie.trim().startsWith("token="));
+    const headers = {
+      "Content-Type": "application/json",
+    };
+    if (token) {
+      headers["Authorization"] = token.split("=")[1];
+    }
+
+    fetch(`http://localhost:4000/api/exercicios/${exercicioId}`, {
+      method: "PUT",
+      headers: headers,
+      body: JSON.stringify(formData),
+    })
+      .then((response) => response.json())
+      .then((data) => {
+        if (data.error || data.errors) {
+          let errorMessage = "Não foi possível alterar o exercício";
+          if (data && (data.error || data.errors)) {
+            errorMessage = `${errorMessage}: ${data.error || data.errors}`;
+          }
+          showAlert(errorMessage);
+        } else {
+          showAlert("Exercício alterado com sucesso");
+          window.location.href = "/exercicios";
+        }
+      })
+      .catch((error) => {
+        showAlert("Ocorreu um erro ao alterar o exercício");
+        console.error(error);
+      });
+  });
+
+  function showAlert(message) {
+    alert(message);
+  }
+
+  const preencherCamposExercicio = async () => {
+    const token = document.cookie
+      .split(";")
+      .find((cookie) => cookie.trim().startsWith("token="));
+    const headers = {
+      "Content-Type": "application/json",
+    };
+    if (token) {
+      headers["Authorization"] = token.split("=")[1];
+    }
+
+    fetch(`http://localhost:4000/api/exercicios/${exercicioId}`, {
+      method: "GET",
+      headers: headers,
+    })
+      .then((response) => response.json())
+      .then((data) => {
+        if (data.error || data.errors) {
+          let errorMessage = "Não foi possível obter os detalhes do exercício";
+          if (data && (data.error || data.errors)) {
+            errorMessage = `${errorMessage}: ${data.error || data.errors}`;
+          }
+          showAlert(errorMessage);
+        } else {
+          const nomeExercicioInput = document.querySelector("#nomeExercicio");
+          const descricaoExercicioInput = document.querySelector(
+            "#descricaoExercicio"
+          );
+          const dificuldadeExercicioInput = document.querySelector(
+            "#dificuldadeExercicio"
+          );
+          const categoriaExercicioInput = document.querySelector(
+            "#categoriaExercicio"
+          );
+
+          nomeExercicioInput.value = data.nome;
+          descricaoExercicioInput.value = data.descricao;
+          dificuldadeExercicioInput.value = data.dificuldade;
+
+          fetch("http://localhost:4000/api/categorias", {
+            method: "GET",
+            headers: headers,
+          })
+            .then((response) => response.json())
+            .then((categorias) => {
+              categoriaExercicioInput.innerHTML = categorias
+                .map(
+                  (categoria) =>
+                    `<option value="${categoria.id}">${categoria.nome}</option>`
+                )
+                .join("");
+              categoriaExercicioInput.value = data.categoria
+                ? data.categoria.nome
+                : "";
+            })
+            .catch((error) => {
+              showAlert("Ocorreu um erro ao obter as categorias");
+              console.error(error);
+            });
+        }
+      })
+      .catch((error) => {
+        showAlert("Ocorreu um erro ao obter os detalhes do exercício");
+        console.error(error);
+      });
+  };
+
+  document.addEventListener("DOMContentLoaded", preencherCamposExercicio);
+</script>
+
+<style>
+  .container {
+    padding: 20px;
+  }
+
+  .main {
+    border-radius: 8px;
+    border: 1px solid rgba(168, 25, 25, 0.5);
+    background-color: gray;
+    box-shadow: 0 4px 8px rgba(168, 25, 25, 0.5);
+    padding: 40px;
+  }
+
+  .main h1 {
+    font-size: 24px;
+    margin-bottom: 20px;
+  }
+
+  .form-group {
+    margin-bottom: 20px;
+  }
+
+  .form-group label {
+    display: block;
+    font-size: 16px;
+    margin-bottom: 5px;
+  }
+
+  .form-group input,
+  .form-group textarea,
+  .form-group select {
+    width: 100%;
+    padding: 8px;
+    font-size: 16px;
+    border-radius: 4px;
+    border: 1px solid #ccc;
+  }
+
+  .form-group textarea {
+    resize: vertical;
+    min-height: 100px;
+  }
+</style>

@@ -6,6 +6,19 @@
   padding: 0 20px;
 }
 
+.btnCarga {
+  padding: 10px 18px;
+  font-size: 14px;
+  position: absolute;
+  background-color: red;
+  color: white;
+  border: none;
+  cursor: pointer;
+}
+.btnCarga:hover {
+  background-color: #ff7f7f;
+}
+
 .main {
   max-width: 400px;
   text-align: center;

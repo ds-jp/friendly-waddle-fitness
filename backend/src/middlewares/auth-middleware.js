@@ -7,21 +7,34 @@ function verificarToken(req, res, next) {
   const token = req.headers.authorization;
 
   if (!token) {
-    if (
-      req.method === "GET" &&
-      (req.path === "/categorias/" ||
-        /^\/categorias\/\d+$/.test(req.path) ||
-        req.path === "/exercicios/" ||
-        /^\/exercicios\/\d+$/.test(req.path))
-      /*^ indica o início da string.
-      \/categorias corresponde à sequência literal "/categorias".
-      (\/\d+)? é um grupo opcional que corresponde a uma barra seguida de um ou mais dígitos. Isso permite capturar a parte do URL após "/categorias/".
-      \/ corresponde a uma barra.
-      \d+ corresponde a um ou mais dígitos.
-      + indica que o elemento anterior deve ocorrer uma ou mais vezes.
-      ? torna o grupo opcional, ou seja, pode ou não estar presente na string.
-      $ indica o final da string.*/
-    ) {
+    const allowedGetRoutes = [
+      "/categorias/",
+      /^\/categorias\/\d+$/,
+      "/exercicios/",
+      /^\/exercicios\/\d+$/,
+      "/relatorio/",
+    ];
+
+    const allowedNonGetRoutes = ["/carga-automatica/"];
+
+    const isAllowedGetRoute = allowedGetRoutes.some((route) => {
+      if (typeof route === "string") {
+        return req.method === "GET" && req.path === route;
+      } else if (route instanceof RegExp) {
+        return req.method === "GET" && route.test(req.path);
+      }
+      return false;
+    });
+
+    if (isAllowedGetRoute) {
+      return next();
+    }
+
+    const isAllowedNonGetRoute = allowedNonGetRoutes.some((route) => {
+      return req.path === route;
+    });
+
+    if (isAllowedNonGetRoute) {
       return next();
     }
 

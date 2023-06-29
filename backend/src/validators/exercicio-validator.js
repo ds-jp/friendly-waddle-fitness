@@ -17,6 +17,10 @@ const criarExercicioValidator = Joi.object({
       "any.only":
         "O campo 'dificuldade' deve ser 'Fácil', 'Moderado' ou 'Difícil'.",
     }),
+  categoria_id: Joi.number().integer().positive().messages({
+    "number.positive": "O campo 'categoria_id' deve ser um número positivo.",
+    "number.integer": "O campo 'categoria_id' deve ser um número inteiro.",
+  }),
 });
 
 const atualizarExercicioValidator = Joi.object({
@@ -29,6 +33,10 @@ const atualizarExercicioValidator = Joi.object({
   dificuldade: Joi.string().valid("Fácil", "Moderado", "Difícil").messages({
     "any.only":
       "O campo 'dificuldade' deve ser 'Fácil', 'Moderado' ou 'Difícil'.",
+  }),
+  categoria_id: Joi.number().integer().positive().messages({
+    "number.positive": "O campo 'categoria_id' deve ser um número positivo.",
+    "number.integer": "O campo 'categoria_id' deve ser um número inteiro.",
   }),
 });
 

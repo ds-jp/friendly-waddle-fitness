@@ -36,4 +36,46 @@ router.get("/contato", (req, res) => {
   res.render("contato", data);
 });
 
+router.get("/exercicios", (req, res) => {
+  const data = {
+    title: "Exercicios - FriendlyWaddle Fitness",
+  };
+  res.render("exercicios", data);
+});
+
+router.get("/categorias", (req, res) => {
+  const data = {
+    title: "Categorias - FriendlyWaddle Fitness",
+  };
+  res.render("categorias", data);
+});
+
+router.get("/categorias/inserir", (req, res) => {
+  const data = {
+    title: "Inserir Categoria - FriendlyWaddle Fitness",
+  };
+  res.render("inserirCategoria", data);
+});
+
+router.get("/categorias/alterar", (req, res) => {
+  const data = {
+    title: "Alterar Categoria - FriendlyWaddle Fitness",
+  };
+  res.render("alterarCategoria", data);
+});
+
+router.get("/exercicios/inserir", (req, res) => {
+  const data = {
+    title: "Inserir Exercício - FriendlyWaddle Fitness",
+  };
+  res.render("inserirExercicio", data);
+});
+
+router.get("/exercicios/alterar", (req, res) => {
+  const data = {
+    title: "Alterar Exercício - FriendlyWaddle Fitness",
+  };
+  res.render("alterarExercicio", data);
+});
+
 module.exports = router;

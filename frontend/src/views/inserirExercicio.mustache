@@ -1,0 +1,198 @@
+{{> layout}}
+
+<head>
+  <link rel="stylesheet" href="/css/exercicios.css" />
+</head>
+
+<div class="container">
+  <div class="main">
+    <h1>Inserir Exercício</h1>
+    <form id="exercicioForm">
+      <div class="form-group">
+        <label for="nomeExercicio">Nome:</label>
+        <input type="text" id="nomeExercicio" name="nomeExercicio" required />
+      </div>
+      <div class="form-group">
+        <label for="descricaoExercicio">Descrição:</label>
+        <textarea
+          id="descricaoExercicio"
+          name="descricaoExercicio"
+          required
+        ></textarea>
+      </div>
+      <div class="form-group">
+        <label for="dificuldadeExercicio">Dificuldade:</label>
+        <select id="dificuldadeExercicio" name="dificuldadeExercicio" required>
+          <option value="Fácil">Fácil</option>
+          <option value="Moderado">Moderado</option>
+          <option value="Difícil">Difícil</option>
+        </select>
+      </div>
+      <div class="form-group">
+        <label for="categoriaExercicio">Categoria:</label>
+        <select
+          id="categoriaExercicio"
+          name="categoriaExercicio"
+          required
+        ></select>
+      </div>
+      <button type="submit">Inserir</button>
+    </form>
+  </div>
+</div>
+
+<script>
+  const exercicioForm = document.querySelector("#exercicioForm");
+  const categoriaExercicioSelect = document.querySelector(
+    "#categoriaExercicio"
+  );
+
+  exercicioForm.addEventListener("submit", (event) => {
+    event.preventDefault();
+
+    const nomeExercicioInput = document.querySelector("#nomeExercicio");
+    const descricaoExercicioInput = document.querySelector(
+      "#descricaoExercicio"
+    );
+    const dificuldadeExercicioSelect = document.querySelector(
+      "#dificuldadeExercicio"
+    );
+
+    const nomeExercicio = nomeExercicioInput.value.trim();
+    const descricaoExercicio = descricaoExercicioInput.value.trim();
+    const dificuldadeExercicio = dificuldadeExercicioSelect.value;
+    const categoriaExercicio = categoriaExercicioSelect.value;
+
+    const formData = {
+      nome: nomeExercicio,
+      descricao: descricaoExercicio,
+      dificuldade: dificuldadeExercicio,
+      categoria_id: categoriaExercicio,
+    };
+
+    const token = document.cookie
+      .split(";")
+      .find((cookie) => cookie.trim().startsWith("token="));
+    const headers = {
+      "Content-Type": "application/json",
+    };
+    if (token) {
+      headers["Authorization"] = token.split("=")[1];
+    }
+
+    fetch("http://localhost:4000/api/exercicios/criar", {
+      method: "POST",
+      headers: headers,
+      body: JSON.stringify(formData),
+    })
+      .then((response) => response.json())
+      .then((data) => {
+        if (data.error || data.errors) {
+          let errorMessage = "Não foi possível inserir o exercício";
+          if (data && (data.error || data.errors)) {
+            errorMessage = `${errorMessage}: ${data.error || data.errors}`;
+          }
+          showAlert(errorMessage);
+        } else {
+          showAlert("Exercício inserido com sucesso");
+          window.location.href = "/exercicios";
+        }
+      })
+      .catch((error) => {
+        showAlert("Ocorreu um erro ao inserir o exercício");
+        console.error(error);
+      });
+  });
+
+  function showAlert(message) {
+    alert(message);
+  }
+
+  function preencherCategorias() {
+    const categoriaExercicioSelect = document.querySelector(
+      "#categoriaExercicio"
+    );
+
+    const token = document.cookie
+      .split(";")
+      .find((cookie) => cookie.trim().startsWith("token="));
+    const headers = {
+      "Content-Type": "application/json",
+    };
+    if (token) {
+      headers["Authorization"] = token.split("=")[1];
+    }
+
+    fetch("http://localhost:4000/api/categorias/", {
+      method: "GET",
+      headers: headers,
+    })
+      .then((response) => response.json())
+      .then((data) => {
+        if (data.error || data.errors) {
+          let errorMessage = "Não foi possível resgatar as categorias";
+          if (data && (data.error || data.errors)) {
+            errorMessage = `${errorMessage}: ${data.error || data.errors}`;
+          }
+          showAlert(errorMessage);
+        } else {
+          categoriaExercicioSelect.innerHTML = "";
+
+          data.forEach((categoria) => {
+            const option = document.createElement("option");
+            option.value = categoria.id;
+            option.textContent = categoria.nome;
+            categoriaExercicioSelect.appendChild(option);
+          });
+        }
+      })
+      .catch((error) => {
+        console.error(error);
+      });
+  }
+
+  preencherCategorias();
+</script>
+
+<style>
+  .container {
+    padding: 20px;
+  }
+
+  .main {
+    border-radius: 8px;
+    border: 1px solid rgba(168, 25, 25, 0.5);
+    background-color: gray;
+    box-shadow: 0 4px 8px rgba(168, 25, 25, 0.5);
+    padding: 40px;
+  }
+
+  .main h1 {
+    font-size: 24px;
+    margin-bottom: 20px;
+  }
+
+  .form-group {
+    margin-bottom: 20px;
+  }
+
+  .form-group label {
+    display: block;
+    font-size: 16px;
+    margin-bottom: 5px;
+  }
+
+  .form-group input,
+  .form-group textarea,
+  .form-group select {
+    width: 100%;
+    padding: 8px;
+    font-size: 16px;
+    border-radius: 4px;
+    border: 1px solid #ccc;
+  }
+
+  .form-group select {
+    height: 38px;
+  }
+</style>

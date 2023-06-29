@@ -1,0 +1,107 @@
+{{> layout}}
+
+<head>
+  <link rel="stylesheet" href="/css/categorias.css" />
+</head>
+
+<div class="container">
+  <div class="main">
+    <h1>Inserir Categoria</h1>
+    <form id="categoriaForm">
+      <div class="form-group">
+        <label for="nomeCategoria">Nome:</label>
+        <input type="text" id="nomeCategoria" name="nomeCategoria" required />
+      </div>
+      <button type="submit">Inserir</button>
+    </form>
+  </div>
+</div>
+
+<script>
+  const categoriaForm = document.querySelector("#categoriaForm");
+
+  categoriaForm.addEventListener("submit", (event) => {
+    event.preventDefault();
+
+    const nomeCategoriaInput = document.querySelector("#nomeCategoria");
+    const nomeCategoria = nomeCategoriaInput.value.trim();
+
+    const formData = {
+      nome: nomeCategoria,
+    };
+
+    const token = document.cookie
+      .split(";")
+      .find((cookie) => cookie.trim().startsWith("token="));
+    const headers = {
+      "Content-Type": "application/json",
+    };
+    if (token) {
+      headers["Authorization"] = token.split("=")[1];
+    }
+
+    fetch("http://localhost:4000/api/categorias/criar", {
+      method: "POST",
+      headers: headers,
+      body: JSON.stringify(formData),
+    })
+      .then((response) => response.json())
+      .then((data) => {
+        if (data.error || data.errors) {
+          let errorMessage = "Não foi possível inserir a categoria";
+          if (data && (data.error || data.errors)) {
+            errorMessage = `${errorMessage}: ${data.error || data.errors}`;
+          }
+          showAlert(errorMessage);
+        } else {
+          showAlert("Categoria inserida com sucesso");
+          window.location.href = "/categorias";
+        }
+      })
+      .catch((error) => {
+        showAlert("Ocorreu um erro ao inserir a categoria");
+        console.error(error);
+      });
+  });
+
+  function showAlert(message) {
+    alert(message);
+  }
+</script>
+
+<style>
+  .container {
+    padding: 20px;
+  }
+
+  .main {
+    border-radius: 8px;
+    border: 1px solid rgba(168, 25, 25, 0.5);
+    background-color: gray;
+    box-shadow: 0 4px 8px rgba(168, 25, 25, 0.5);
+    padding: 40px;
+  }
+
+  .main h1 {
+    font-size: 24px;
+    margin-bottom: 20px;
+  }
+
+  .form-group {
+    margin-bottom: 20px;
+  }
+
+  .form-group label {
+    display: block;
+    font-size: 16px;
+    margin-bottom: 5px;
+  }
+
+  .form-group input {
+    width: 100%;
+    padding: 8px;
+    font-size: 16px;
+    border-radius: 4px;
+    border: 1px solid #ccc;
+  }
+</style>
